@@ -1,5 +1,7 @@
 #include <iostream> 
 #include <algorithm>
+#include <functional>
+#include <numeric>
 #include <vector>
 
 // Printing function for the vector
@@ -17,41 +19,41 @@ void insertionSort(std::vector<int> &x, int &C) {
         int key = x[i];
         int j = i - 1;
 
+        C++;
         while ((j >= 0) && (x[j] > key)) {
+            x[j + 1] = x[j];
+            j--;
             C++;
-            if (x[j] > key) {
-                x[j + 1] = x[j];
-                j--;
-                C++;
-            }
-            else {
-                break;
-            }
         }
         x[j + 1] = key; 
     } 
 }
 
 // Main function that does permuation of given vector 
-void permutate(std::vector<int> &main) {
-    int i = 0;
+double permutate(std::vector<int> &main) {
+    double totalC = 0;
+    double factorial = std::accumulate(main.begin(),main.end(), 1, std::multiplies<double>());
+    double out;
+
     do {
         std::vector<int> x = main;
         int Ci = 0;
-        std::cout << "Initial" << std::endl;
-        printVec(x);
         insertionSort(x,Ci);
-        std::cout << "Sorted" << std::endl;
-        printVec(x);
-        std::cout << "C" << i << " = " << Ci << std::endl;
-        i++;
-        std::cout << std::endl;
+        totalC += Ci;
     } while(std::next_permutation(main.begin(),main.end()));
+
+    out = totalC / factorial;
+
+    return out;
 }
 
 int main () {
-    std::vector<int> x = {1,2,3,4}; 
-    permutate(x);
+    std::vector<int> x = {1,2,3,4,5,6,7,8}; 
+    double out = permutate(x);
+
+    std::cout << "Average Case for Vector: ";
+    printVec(x);
+    std::cout << out << std::endl;
 
     return 0;
 }
