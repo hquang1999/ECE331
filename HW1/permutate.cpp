@@ -44,9 +44,6 @@ void permutate(std::vector<int> &main) {
     long factorial = std::accumulate(main.begin(),main.end(), 1, std::multiplies<double>());
     double out;
 
-    std::vector<int> bestVec;
-    std::vector<int> worstVec;
-
     int Case = 0;
     int best = main.size() - 1;
     int worst = 0;
@@ -57,11 +54,6 @@ void permutate(std::vector<int> &main) {
         
         if (Case > worst) {
             worst = Case;
-            worstVec = main;
-        }
-
-        if (Case == best) {
-            bestVec = main;
         }
 
         totalC += Case;
@@ -71,9 +63,7 @@ void permutate(std::vector<int> &main) {
     out = (double) totalC / factorial;
 
     std::cout << "Best:  " << best << std::endl;
-    printVec(bestVec);
     std::cout << "Worst: " << worst << std::endl;
-    printVec(worstVec);
     std::cout << "Avg:   " << out << std::endl;
 }
 
