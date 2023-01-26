@@ -2,58 +2,84 @@
 #include <algorithm>
 #include <functional>
 #include <numeric>
+#include <type_traits>
 #include <vector>
 
 // Printing function for the vector
 void printVec(std::vector<int> &x) {
-    for (auto i : x) {
-        std::cout << i << " ";
+    int max = x.size();
+    std::cout << "[ ";
+    for (int i = 0; i < max; i++) {
+        std::cout << x[i] << " ";
     }
-    std::cout << std::endl;
+    std::cout << "]" << std::endl;
 }
 
 // Insertion Sort
-void insertionSort(std::vector<int> &x, int &C) {
+int insertionSort(std::vector<int> &x) {
+    int C = 0;
     int max = x.size();
     for (int i = 1; i < max; i++) {
         int key = x[i];
         int j = i - 1;
 
-        C++;
-        while ((j >= 0) && (x[j] > key)) {
-            x[j + 1] = x[j];
-            j--;
+        while (j >= 0) { 
             C++;
+            if (x[j] > key) { 
+                x[j + 1] = x[j];
+                j--;
+            }
+            else {
+                break;
+            }
         }
         x[j + 1] = key; 
     } 
+    return C;
 }
 
 // Main function that does permuation of given vector 
-double permutate(std::vector<int> &main) {
-    double totalC = 0;
-    double factorial = std::accumulate(main.begin(),main.end(), 1, std::multiplies<double>());
+void permutate(std::vector<int> &main) {
+    long totalC = 0;
+    long factorial = std::accumulate(main.begin(),main.end(), 1, std::multiplies<double>());
     double out;
+
+    std::vector<int> bestVec;
+    std::vector<int> worstVec;
+
+    int Case = 0;
+    int best = main.size() - 1;
+    int worst = 0;
 
     do {
         std::vector<int> x = main;
-        int Ci = 0;
-        insertionSort(x,Ci);
-        totalC += Ci;
+        Case = insertionSort(x);
+        
+        if (Case > worst) {
+            worst = Case;
+            worstVec = main;
+        }
+
+        if (Case == best) {
+            bestVec = main;
+        }
+
+        totalC += Case;
+
     } while(std::next_permutation(main.begin(),main.end()));
 
-    out = totalC / factorial;
+    out = (double) totalC / factorial;
 
-    return out;
+    std::cout << "Best:  " << best << std::endl;
+    printVec(bestVec);
+    std::cout << "Worst: " << worst << std::endl;
+    printVec(worstVec);
+    std::cout << "Avg:   " << out << std::endl;
 }
 
-int main () {
+int main (int argc, char** argv ) {
     std::vector<int> x = {1,2,3,4,5,6,7,8}; 
-    double out = permutate(x);
-
-    std::cout << "Average Case for Vector: ";
-    printVec(x);
-    std::cout << out << std::endl;
+    permutate(x);
 
     return 0;
 }
