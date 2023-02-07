@@ -38,8 +38,23 @@ int insertionSort(std::vector<int> &x) {
     return C;
 }
 
+std::vector<int> ret (int x) {
+    std::vector<int> a;
+    for (int i = 1; i <= x; i++) {
+        a.push_back(i);
+    }
+
+    return a;
+}
+
 // Main function that does permuation of given vector 
-void permutate(std::vector<int> &main) {
+void permutate(int n) {
+    // Creates vector of [1,2,...,n]
+    std::vector<int> main;
+    for (int i = 1; i <= n; i++) {
+        main.push_back(i);
+    }
+    printVec(main);
     long totalC = 0;
     long factorial = std::accumulate(main.begin(),main.end(), 1, std::multiplies<double>());
     double out;
@@ -68,8 +83,7 @@ void permutate(std::vector<int> &main) {
 }
 
 int main (int argc, char** argv ) {
-    std::vector<int> x = {1,2,3,4,5,6,7,8}; 
-    permutate(x);
+    permutate(8);
 
     return 0;
 }

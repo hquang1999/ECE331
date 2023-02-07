@@ -8,14 +8,14 @@ float sampleMean(float tests, std::vector<int> &x) {
 
 float sampleVariance(float tests, float mean, std::vector<int> &x) {
     int max = x.size();
-    int acc = 0;
+    float acc = 0;
     int temp;
     for (int i = 0; i < max; i++) {
         temp = x[i] - mean; 
         acc += pow(temp,2);
     }
 
-    acc = acc / tests;
+    acc = (float) acc / tests;
 
     return acc;
 }
