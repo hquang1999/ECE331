@@ -59,11 +59,7 @@ void permutate(int n) {
 
     std::vector<int> Cx;
         
-    while (1) {
-        if (iters == tests) {
-            break;
-        }
-
+    while (iters < tests) {
         std::shuffle(main.begin(),main.end(),rng);
         std::vector<int> x = main;
         Case = insertionSort(x);
