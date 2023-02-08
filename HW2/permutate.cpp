@@ -50,14 +50,14 @@ void permutate(int n) {
     }
 
     int iters = 0;
-    int tests = 100;
+    int tests = 1000000;
     int Case = 0;
     long totalC = 0;
 
     std::random_device rd;
     std::mt19937 rng(rd());
 
-    std::vector<int> Cx;
+    std::vector<float> Cx;
         
     while (iters < tests) {
         std::shuffle(main.begin(),main.end(),rng);

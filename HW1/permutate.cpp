@@ -4,6 +4,7 @@
 #include <numeric>
 #include <type_traits>
 #include <vector>
+#include "sample.hpp"
 
 // Printing function for the vector
 void printVec(std::vector<int> &x) {
@@ -51,35 +52,28 @@ std::vector<int> ret (int x) {
 void permutate(int n) {
     // Creates vector of [1,2,...,n]
     std::vector<int> main;
+    std::vector<int> comps;
     for (int i = 1; i <= n; i++) {
         main.push_back(i);
     }
     printVec(main);
     long totalC = 0;
-    long factorial = std::accumulate(main.begin(),main.end(), 1, std::multiplies<double>());
+    float factorial = std::accumulate(main.begin(),main.end(), 1, std::multiplies<double>());
     double out;
-
     int Case = 0;
-    int best = main.size() - 1;
-    int worst = 0;
 
     do {
         std::vector<int> x = main;
         Case = insertionSort(x);
-        
-        if (Case > worst) {
-            worst = Case;
-        }
-
+        comps.push_back(Case);
         totalC += Case;
-
     } while(std::next_permutation(main.begin(),main.end()));
 
-    out = (double) totalC / factorial;
-
-    std::cout << "Best:  " << best << std::endl;
-    std::cout << "Worst: " << worst << std::endl;
-    std::cout << "Avg:   " << out << std::endl;
+    float mean = sampleMean(factorial,comps);
+    float variance = sampleVariance(factorial, mean, comps);
+    
+    std::cout << "Mean: " << mean << std::endl;
+    std::cout << "Vars: " << variance << std::endl;
 }
 
 int main (int argc, char** argv ) {
