@@ -50,7 +50,7 @@ void permutate(int n) {
     }
 
     int iters = 0;
-    int tests = 1000000;
+    int tests = 100;
     int Case = 0;
     long totalC = 0;
 
