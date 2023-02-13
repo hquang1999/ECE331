@@ -32,12 +32,12 @@ void mergeMe(std::vector<int> &A, int left, int middle, int right) {
     int lMax = middle - left + 1;
     int rMax = right - middle;
 
-    // Creating left side array
+    // Getting the left side array
     for (int i = 0; i < lMax; i++) {
         LVec.push_back(A[left + i]);
     }
 
-    // Creating right side array
+    // Getting the right side array
     for (int i = 0; i < rMax; i++) {
         RVec.push_back(A[middle + 1 + i]);
     }
@@ -46,24 +46,36 @@ void mergeMe(std::vector<int> &A, int left, int middle, int right) {
     int j = 0;
     int k = left;
     
+    // Begin comparisons, checking if we reach either the left or right limit
     while ((i < lMax) && (j < rMax)) {
+        // If element from left side is <= right side
         if (LVec[i] <= RVec[j]) {
+            // Replace them into the array
             A[k] = LVec[i];
+            // Increment to the next element
             i++;
         }
+        // If elements from the right side is <= left side
         else {
+            // Replace them into the array
             A[k] = RVec[j];
+            // Increment to the next element
             j++;
         }
+        // Increment to the next element
         k++;
     }
     
+    // This section is clean up for when we leave the while loop
+    
+    // If the right array finishes, then add back the remaining left array elements
     while (i < lMax) {
         A[k] = LVec[i];
         i++;
         k++;
     }
 
+    // If the left array finishes, then add back the remaining right array elements
     while (j < rMax) {
         A[k] = RVec[j];
         j++;
