@@ -2,23 +2,25 @@
 
 void printArray(std::vector<int> &vec) {
     std::cout << "[ ";
-    for (int i : vec) {
+    for (auto i : vec) {
         std::cout << i << " ";
     }
     std::cout << "]" << std::endl;
 }
 
-void division(std::vector<int> A, int min, int max) {
+void division(std::vector<int> &A, int min, int max) {
     if (min < max) {
         int middle = min + (max - min) / 2; 
         // Divide the min side
         division(A, min, middle);
 
         // Divide the max side
-        division(A, middle + 1, max);
+        int tm = middle + 1;
+        division(A, tm, max);
 
         // Merge the arrays together
         mergeMe(A, min, middle, max);
+        
         printArray(A);
     }
 }
@@ -28,7 +30,7 @@ void mergeMe(std::vector<int> &A, int left, int middle, int right) {
     std::vector<int> RVec;
     
     int lMax = middle - left + 1;
-    int rMax = right + middle;
+    int rMax = right - middle;
 
     // Creating left side array
     for (int i = 0; i < lMax; i++) {
@@ -63,7 +65,7 @@ void mergeMe(std::vector<int> &A, int left, int middle, int right) {
     }
 
     while (j < rMax) {
-        A[k] = LVec[j];
+        A[k] = RVec[j];
         j++;
         k++;
     }
