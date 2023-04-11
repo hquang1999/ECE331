@@ -35,6 +35,7 @@ int partition(std::vector<int> &A, int p, int r) {
             A[j] = temp;
         }
     }
+
     i++;
     int temp = A[i];
     A[i] = A[r];
@@ -79,7 +80,6 @@ void driver(int sz) {
     std::cout << "C = " << SM(comps,tests) << std::endl;
     std::cout << "S = " << SM(swaps,tests) << std::endl;
     std::cout << "P = " << SM(parts,tests) << std::endl;
-
 }
 
 int main (int argc, char** argv) { 
