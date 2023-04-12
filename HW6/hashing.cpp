@@ -1,6 +1,9 @@
 #include <iostream>
 #include <vector>
 #include <random>
+#include <getopt.h>
+
+int elemI;
 
 void printHash(std::vector<int> &hashMe) {
     int max = hashMe.size();
@@ -18,30 +21,67 @@ void printHash(std::vector<int> &hashMe) {
     std::cout << "]" << std::endl; 
 }
 
-void beginHashing(std::vector<int> &hashMe,int elemHS) {
+int placeIndex(std::vector<int> &hashMe, int randX, int m) {
+    int max = hashMe.size();
+    int  index = 0;
+    for (int i = 0; i < max; i++) {
+        index = (randX + (i * (1 + (randX % (m - 1))))) % m;
+        if (hashMe[index] == -1) {
+            hashMe[index] = randX;
+            elemI = i;
+            break;
+        }
+    }
+    return index;
+}
+
+void beginHashing(std::vector<int> &hashMe, int m, int n) {
     std::random_device rd;
     std::mt19937 rng(rd());
     std::uniform_int_distribution<int> num(1,1000);
-    int max = elemHS;
-
-    for (int i = 0; i < max; i++) {
+    int count = 1;
+    for (int i = 0; i < n; i++) {
         int randOut = num(rng);
-
+        int index = placeIndex(hashMe,randOut,m);
+        std::cout << count << ". " << "h(" << randOut << "," 
+            << elemI << ") = " << index << std::endl;
+        count++;
     } 
 }
 
-int returnIndex(std::vector<int> &hashMe, int x) {
+void runner(int m, int n) {
+    std::vector<int> hashMe(m,-1);
+    if (n <= m) {
+        std::cout << "H(k,i) Result:" << std::endl;
+        beginHashing(hashMe, m, n);
+        std::cout << std::endl;
+        std::cout << "Output Array:" << std::endl;
+    
+        printHash(hashMe);
+        
+    }
+    else {
+        std::cout << "ERROR: random array size > storage array" << std::endl;
+    }
+}
+
+int main(int argc, char** argv) {
+    int m = 0;
+    int n = 0;
+    int opt = 0;
+    while ((opt = getopt(argc,argv,"M:N:")) != -1) {
+        switch(opt) {
+            case 'M':
+                m = atoi(optarg);
+                break;
+            case 'N':
+                n = atoi(optarg);
+                break;
+            default:
+                std::cout << "No Input!" << std::endl;        
+        }    
+    }
+
+    runner(m, n);
     return 0;
-}
-
-void runner(std::vector<int> &hashMe,int elemHS) {
-    beginHashing(hashMe, elemHS);
-    printHash(hashMe);
-}
-
-int main() {
-    int elemHS = 15;
-    int maxSZ = 23;
-    std::vector<int> hashMe(maxSZ,-1);
-    runner(hashMe, 15);
 }
